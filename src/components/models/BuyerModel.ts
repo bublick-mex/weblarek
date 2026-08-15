@@ -1,55 +1,50 @@
-import { IBuyer } from "../../types";
+import { IBuyer, TPayment, TFormErrors} from "../../types";
 import { IEvents } from "../base/Events";
-import { TPayment } from "../../types";
-import { TFormErrors } from "../../types";
 
 export class BuyerModel {
-  private _payment: TPayment = '';
-  private _address: string = '';
-  private _phone: string = '';
-  private _email: string = '';
+  private payment: TPayment = '';
+  private address: string = '';
+  private phone: string = '';
+  private email: string = '';
 
   constructor(protected events: IEvents) {}
 
   setData(data: Partial<IBuyer>): void {
-    if (data.address !== undefined) this._address = data.address;
-    if (data.email !== undefined) this._email = data.email;
-    if (data.payment !== undefined) this._payment = data.payment;
-    if (data.phone !== undefined) this._phone = data.phone;
-
-    this.events.emit('buyer:changed', this.getData())
+    if (data.address !== undefined) this.address = data.address;
+    if (data.email !== undefined) this.email = data.email;
+    if (data.payment !== undefined) this.payment = data.payment;
+    if (data.phone !== undefined) this.phone = data.phone;
   }
 
   getData(): IBuyer {
     return {
-      address: this._address,
-      email: this._email,
-      payment: this._payment,
-      phone: this._phone
+      address: this.address,
+      email: this.email,
+      payment: this.payment,
+      phone: this.phone
     };
   }
 
   clearData(): void {
-    this._address = '';
-    this._email = '';
-    this._payment = '';
-    this._phone = '';
-    this.events.emit('buyer:changed', this.getData());
+    this.address = '';
+    this.email = '';
+    this.payment = '';
+    this.phone = '';
   }
 
   validate(): TFormErrors {
     const error: TFormErrors = {};
 
-    if (!this._address) {
+    if (!this.address.trim()) {
       error.address = 'Не выбран адрес доставки';
     }
-    if (!this._email) {
+    if (!this.email.trim()) {
       error.email = 'Не указан Email';
     }
-    if (!this._payment) {
+    if (!this.payment.trim()) {
       error.payment = 'Не указан способ оплаты';
     }
-    if (!this._phone) {
+    if (!this.phone.trim()) {
       error.phone = 'Не указан номер телефона';
     }
 

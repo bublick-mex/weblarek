@@ -130,15 +130,15 @@ Presenter - презентер содержит основную логику п
 `constructor(events: IEvents)` - принимает экземпляр брокера событий
 
 Поля класса:
-`_products: IProduct[]` - массив всех товаров 
-`_selectedCard: IProduct | null` - товар, выбранный для подробного отбражения
+`products: IProduct[]` - массив всех товаров 
+`selectedProduct: IProduct | null` - товар, выбранный для подробного отбражения
 
 Методы класса:
 `setProducts(products: IProduct[]): void` - сохраняет массив товаров полученного в параметрах метода
 `getProducts(): IProduct[]` - получение массива товаров из модели
 `getProduct(id: string): IProduct | underfined` - получение одного товара по его id
-`setSelectedCard(product: IProduct): void` - сохранение товара для подробного отображения
-`getSelectedCard(): IProduct | null` - получение товара для подробного отображения
+`setSelectedProduct(product: IProduct): void` - сохранение товара для подробного отображения
+`getSelectedProduct(): IProduct | null` - получение товара для подробного отображения
 
 #### Класс CartModel
 Отвечает за управление списком товаров, добавленных пользователем в корзину, расчёт итоговой суммы и количества.
@@ -146,7 +146,7 @@ Presenter - презентер содержит основную логику п
 `constructor(events: IEvents)` - принимает экземпляр брокера событий
 
 Поля класса:
-`_products: IProduct[]` - массив товаров
+`products: IProduct[]` - массив товаров
 
 Методы класса:
 `getProducts(): IProduct[]` - получение массива товаров, которые находятся в корзине
@@ -164,10 +164,10 @@ Presenter - презентер содержит основную логику п
 `constructor(events: IEvent)` - принимает экземпляр брокера событий
 
 Поля класса:
-`_payment: TPayment` - вид оплаты
-`_address: string` - адреc
-`_phone: string` - телефон
-`_email: string` - email
+`payment: TPayment` - вид оплаты
+`address: string` - адреc
+`phone: string` - телефон
+`email: string` - email
 
 Методы класса:
 `setData(data: Partial<IBuyer>): void` - сохранение данных в модели. Позволяет сохранить как отдельный поля, так и весь объект целиком не тееряя уже записанные данные 

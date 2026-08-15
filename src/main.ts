@@ -16,8 +16,8 @@ const catalog = new CatalogModel(events);
 catalog.setProducts(apiProducts.items);
 console.log('Массив товаров из каталога:', catalog.getProducts());
 console.log('Получение товара по id: ', catalog.getProduct(catalog.getProducts()[0].id));
-catalog.setSelectedCard(catalog.getProducts()[0])
-console.log('получение товара для подробного отображения', catalog.getSelectedCard());
+catalog.setSelectedProduct(catalog.getProducts()[0])
+console.log('получение товара для подробного отображения', catalog.getSelectedProduct());
 
 const cart = new CartModel(events);
 const product1 = apiProducts.items[0];
@@ -45,8 +45,12 @@ buyer.setData( {
 });
 console.log('данные после заполнения всех полей', buyer.getData());
 console.log('валидация после заполнения всех данных', buyer.validate());
+buyer.clearData();
+console.log('данные после очистки всез полей', buyer.getData())
 
 appApi.getProductList().then((data) => {
   catalog.setProducts(data.items);
   console.log('массив товаров полученный с сервера: ', catalog.getProducts())
-})
+  }).catch((error) => {
+    console.error('Проблема с загрузкой товаров с сервера', error);
+  })

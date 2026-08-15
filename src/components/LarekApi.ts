@@ -8,10 +8,10 @@ export class LarekApi {
   }
 
   getProductList(): Promise<IProductListResponse> {
-    return this._api.get('/product') as Promise<IProductListResponse>;
+    return this._api.get<IProductListResponse>('/product');
   }
 
   orderProducts(order: IOrder): Promise<IOrderResponse> {
-    return this._api.post('/order', order) as Promise<IOrderResponse>;
+    return this._api.post<IOrderResponse>('/order', order);
   }
 }
