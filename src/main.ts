@@ -158,10 +158,6 @@ events.on('buyer:changed', () => {
 events.on('order:submitted', () => {
   modal.render({
     content: contact.render({
-      email: '',
-      phone: '',
-      valid: false,
-      errors: '',
     })
   })
 })
