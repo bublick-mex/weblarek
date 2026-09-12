@@ -35,10 +35,6 @@ export class PreviewCard extends Card<IPreviewCard> {
         actions.onBasket();
       });
     }
-
-    if (actions?.onClick) {
-      this.container.addEventListener('click', actions.onClick);
-    }
   }
 
   set description(value: string) {

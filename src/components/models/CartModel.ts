@@ -22,7 +22,7 @@ export class CartModel {
 
   clearCart():void {
     this.products = [];
-    this.events.emit('cart):changed');
+    this.events.emit('cart:changed');
   }
 
   getTotalPrice(): number {

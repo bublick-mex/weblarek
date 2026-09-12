@@ -7,15 +7,24 @@ interface IProductCard {
   image: string;
 }
 
+interface IProductCardAction { 
+  onClick: (event: MouseEvent) => void; 
+}
+
+
 export class ProductCard extends Card<IProductCard>{
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
 
-  constructor (container: HTMLElement) {
+  constructor (container: HTMLElement, actions?: IProductCardAction) {
     super(container);
 
     this.cardCategory = ensureElement<HTMLElement>('.card__category', this.container);
     this.cardImage = ensureElement<HTMLImageElement>('.card__image', this.container);
+    
+    if (actions?.onClick) {
+      this.container.addEventListener('click', actions.onClick)
+    }
   }
 
   set category(value: string) {

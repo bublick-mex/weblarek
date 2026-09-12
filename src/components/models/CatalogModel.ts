@@ -22,7 +22,7 @@ export class CatalogModel {
 
   setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
-    this.events.emit('card:selected');
+    this.events.emit('preview:changed', product);
   }
 
   getSelectedProduct(): IProduct | null {

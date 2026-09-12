@@ -38,6 +38,10 @@ const basket = new Basket(cloneTemplate<HTMLElement>('#basket'), events);
 const contact = new ContactForm(events, cloneTemplate<HTMLFormElement>('#contacts'));
 const order = new OrderForm(events, cloneTemplate<HTMLFormElement>('#order'));
 
+  const preview = new PreviewCard(cloneTemplate<HTMLElement>('#card-preview'), {
+    onBasket: () => events.emit('preview:preview-click')
+  });
+
 const success = new SuccessBlock(cloneTemplate<HTMLElement>('#success'), {
   onClick: () => modal.close(),
 });
@@ -46,39 +50,31 @@ events.onAll(({ eventName }) => console.log('Событие:', eventName));
 
 events.on('catalog:changed', () => {
   const cards = catalog.getProducts().map((item) =>
-    new ProductCard(cloneTemplate<HTMLElement>('#card-catalog')).render({
+    new ProductCard(cloneTemplate<HTMLElement>('#card-catalog'),{
+      onClick: () => events.emit('card:selected', item)
+    }).render({
       title: item.title,
       price: item.price,
       category: item.category,
       image: item.image
     })
   );
-  cards.forEach((cardElement, index) => {
-    const item = catalog.getProducts()[index];
-    cardElement.addEventListener('click', () => events.emit('card:selected', item))
-  });
 
   gallery.render({catalog: cards})
 })
 
 events.on('card:selected', (item: IProduct) => {
+  catalog.setSelectedProduct(item)
+})
+
+events.on('preview:changed', (item: IProduct) => {
+  if (!item) return;
   const inCart = card.getProducts().some((cartItem) => cartItem.id === item.id);
 
   let buttonText = inCart ? 'Удалить из корзины' : 'Купить';
   if (item.price === null || undefined) {
     buttonText = 'Недоступно'
   }
-
-  const preview = new PreviewCard(cloneTemplate<HTMLElement>('#card-preview'), {
-    onBasket: () => {
-      if (inCart) {
-        card.removeProduct(item.id);
-      } else {
-        card.addProduct(item);
-      }
-      modal.close();
-    }
-  });
 
   modal.render({
     content: preview.render({
@@ -91,7 +87,19 @@ events.on('card:selected', (item: IProduct) => {
       buttonDisabled: item.price === null,
     }),
   });
-});
+})
+
+events.on('preview:preview-click', () => {
+  const item = catalog.getSelectedProduct();
+  if (!item) return;
+  const inCart = card.getProducts().some((cartItem) => cartItem.id === item.id);
+      if (inCart) {
+        card.removeProduct(item.id);
+      } else {
+        card.addProduct(item);
+      }
+      modal.close();
+})
 
 events.on('basked:open', () => {
   modal.render({
@@ -113,19 +121,14 @@ events.on('cart:changed', () => {
   });
   basket.render({
       list: items,
-      price: card.getTotalPrice()
+      price: card.getTotalPrice(),
     })
 })
 
 events.on('order:open', () => {
   buyer.clearData();
   modal.render({
-    content: order.render({
-      address: '',
-      payment: null,
-      valid: false,
-      errors: '',
-    })
+    content: order.render({})
   })
 })
 
@@ -171,12 +174,13 @@ events.on('contacts:submitted', () => {
   }
 
   appApi.orderProducts(order).then((result) => {
+
   card.clearCart(); 
   buyer.clearData();
 
     modal.render({
     content: success.render({
-      price: result.total,
+    price: result.total,
     })
   });
 }).catch((err) => {
