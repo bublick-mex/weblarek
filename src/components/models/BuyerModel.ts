@@ -14,6 +14,7 @@ export class BuyerModel {
     if (data.email !== undefined) this.email = data.email;
     if (data.payment !== undefined) this.payment = data.payment;
     if (data.phone !== undefined) this.phone = data.phone;
+    this.events.emit('buyer:changed');
   }
 
   getData(): IBuyer {

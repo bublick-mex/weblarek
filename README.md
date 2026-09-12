@@ -182,3 +182,208 @@ Presenter - презентер содержит основную логику п
 Методы класса:
 `getProductList(): Promise<IProductListResponse>` - метод выполняет запрос на сервер и получает объект с массивом товаров
 `orderProducts(order: IOrder): Promise<IOrderResponse>` - меод отправляет данные заказа и получает результат с id заказа и общей суммой
+
+### Слоя Представления (View)
+#### Класс Header
+Поля класса:
+basketButton: HTMLButtonElement
+counterElement: HTMLElement
+
+Методы класса:
+set counter(value: number)
+
+Интерфейс: 
+IHeaderData {
+  counter: number;
+}
+
+#### Класс Gallery
+Поля класса:
+gallery: HTMLElemnt
+
+Методы класса:
+set catalog(items: HTMLElement[])
+
+Интерфейс: 
+IGalleryData {
+  catalog: HTMLElement[];
+}
+
+#### Класс Modal
+Поля класса:
+closeButtonElement: HTMLButtonElement;
+contentElement: HTMLElement;
+windowElement: HTMLElement;
+
+Методы класса:
+set content(value: HTMLElement)
+
+Интерфейс: 
+IModalData {
+  content: HTMLElement;
+}
+
+#### Класс SuccessBlock
+Поля класса:
+totalPrice: HTMLElement
+closeButton: HTMLButtonElement;
+
+Методы класса:
+set price(value: number)
+
+Интерфейс: 
+ISuccessData {
+  price: number;
+}
+ISuccessAction {
+  onClick?: () => void;
+}
+
+#### Класс Card
+Поля класса:
+cardTitle: HTMLElement
+cardPrice: HTMLElement
+
+Методы класса:
+set title(value: string)
+set price(value: string)
+
+Интерфейс: 
+ICard {
+  title: string;
+  price: number | null;
+}
+
+#### Класс ProductCard
+Поля класса:
+cardCategory: HTMLElement
+cardImage: HTMLImageElement
+
+Методы класса:
+set category(value: string)
+set image(value: string)
+
+Интерфейс: 
+IProductCard {
+  category: string;
+  image: string;
+}
+
+#### Класс PreviewCard
+Поля класса:
+cardDescription: HTMLElement;
+cardBascetButton: HTMLButtonElement;
+cardCategory: HTMLElement;
+cardImage: HTMLImageElement;
+
+Методы класса:
+set description(value: string)
+set category(value: string) 
+set image(value: string)
+set buttonText(value: string)
+set buttonDisabled(value: boolean)
+
+Интерфейс: 
+IPreviewCard {
+  description: string;
+  category: string;
+  image: string;
+  buttonText: string;
+  buttonDisabled: boolean;
+}
+
+IPreviewCardAction {
+  onBasket: () => void;
+  onClick?: () => void;
+}
+
+#### Класс BasketCard
+Поля класса:
+cardButtonDeleat: HTMLButtonElement
+cardIndex: HTMLElement
+
+Методы класса:
+set index(value: number)
+
+Интерфейс: 
+IBasketCard {
+  index: number;
+}
+IBasketCardActions {
+  onDelete?: () => void;
+}
+
+#### Класс Basket
+Поля класса:
+basketList: HTMLElement
+basketButtonBuy: HTMLButtonElement
+basketPrice: HTMLElement
+
+Методы класса:
+set list(items: HTMLElement[])
+set price(value: number)
+
+Интерфейс: 
+IBasket {
+  list: HTMLElement[];
+  price: number;
+}
+
+#### Класс Form
+Поля класса:
+submitButton: HTMLButtonElement
+protected errorsElement: HTMLElement
+
+Методы класса:
+set valid(value: boolean)
+set errors(value: string)
+
+Интерфейс: 
+IForm {
+  valid: boolean;
+  errors: TFormErrors | '';
+}
+
+#### Класс OrederForm
+Поля класса:
+reasonButton: HTMLButtonElement[]
+addressInput: HTMLInputElement
+
+Методы класса:
+set payment(value: TPayment | null)
+set address(value: string)
+
+Интерфейс: 
+IOrderForm {
+  reason: TPaymentWay | null;
+  address: string;
+}
+
+#### Класс ContactForm
+Поля класса:
+emailInput: HTMLInputElement
+phoneInput: HTMLInputElement
+
+Методы класса:
+set email(value: string)
+set phone(value: string)
+
+Интерфейс: 
+IContactForm {
+  email: string;
+  phone: string;
+}
+
+### Презентер
+Так как данный проект одностраничный, презентер описан в main.ts
+
+События:
+catalog:changed
+card:selected
+basked:open
+cart:changed
+order:open
+form:changed
+buyer:changed
+order:submitted
+contacts:submitted

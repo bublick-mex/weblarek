@@ -12,14 +12,17 @@ export class CartModel {
 
   addProduct(product: IProduct): void {
     this.products.push(product);
+    this.events.emit('cart:changed');
   }
 
   removeProduct(id: string): void {
     this.products = this.products.filter((item) => item.id !== id);
+    this.events.emit('cart:changed');
   }
 
   clearCart():void {
     this.products = [];
+    this.events.emit('cart):changed');
   }
 
   getTotalPrice(): number {

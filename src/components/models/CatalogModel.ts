@@ -9,6 +9,7 @@ export class CatalogModel {
 
   setProducts(products: IProduct[]): void {
     this.products = products;
+    this.events.emit('catalog:changed');
   }
 
   getProducts(): IProduct[] {
@@ -21,6 +22,7 @@ export class CatalogModel {
 
   setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
+    this.events.emit('card:selected');
   }
 
   getSelectedProduct(): IProduct | null {
